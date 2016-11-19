@@ -8,7 +8,11 @@ import requests
 def handle(msg):
     chat_id = msg['chat']['id']
     command = msg['text']
-    commands = ["*motivate*\nselect a random motivational quoteto raise your morale!"]
+    commands = ["*motivate*\nselect a random motivational quoteto raise your morale!","*help*\nDisplay all commands"]
+    helpMessage = "";
+    for comm in commands:
+        helpMessage += str(comm) + '\n\n'
+
 
     print 'Got command: %s' % command
 #leaving some comments for basic functions here
@@ -20,10 +24,8 @@ def handle(msg):
     	req = requests.post('http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json')
     	req = req.json()
     	bot.sendMessage(chat_id, str(req['quoteText']) + str('\n') + '_' + str(req['quoteAuthor']) + '_', parse_mode = "Markdown")
-    if command == '/help' or command == '/help@TailsBot':
-        finalMessage = "";
-        for comm in commands
-            finalMessage += str(comm) + '\n'
+    elif command == '/help' or command == '/help@TailsBot':
+        bot.sendMessage(chat_id, str(helpMessage), parse_mode = "Markdown")
 bot = telepot.Bot(os.environ['TAILS_KEY'])
 bot.message_loop(handle)
 print 'I am listening ...'
